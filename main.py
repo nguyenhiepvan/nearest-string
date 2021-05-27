@@ -1,6 +1,6 @@
 import numpy as np
 from itertools import combinations
-import re,sys,getopt
+import re,sys,string
 
 def levenshtein_ratio_and_distance(s, t, ratio_calc = False):
     """ levenshtein_ratio_and_distance:
@@ -14,6 +14,9 @@ def levenshtein_ratio_and_distance(s, t, ratio_calc = False):
     # Initialize matrix of zeros
     rows = len(s)+1
     cols = len(t)+1
+    if len(s) * len(t) == 0:
+        return 0
+
     distance = np.zeros((rows,cols),dtype = int)
 
     # Populate matrix of zeros with the indeces of each character of both strings
@@ -60,6 +63,7 @@ def remove_accents(input_str):
 
 def optimize(title):
   exts = ['.docx','.doc', '.pdf', '.pptx', '.ppt','.potx',  '.pot','.ppsx' '.pps' ]
+  title = ''.join([i for i in title if not i.isdigit()])
   title = title.replace(" ", "").upper()
   for ext in exts:
     title = title.replace(ext.upper(),"")
@@ -83,7 +87,6 @@ def getMaxScore(data,title):
  for index, item in enumerate(data, start=1):
   if index == max_key:
       results = item
-
  return [max_value,' '.join(results.split())]
 
 def clean_head(title,results):
@@ -103,13 +106,13 @@ def clean_head(title,results):
  return re.sub(r"[-_()\"#/@;:<>{}`+=~|.!?,]", "", results).upper()
 
 def clean_tail(title,results):
- end = title[len(title)-5:len(title)]
+ end = title[len(title)-4:len(title)]
  tmp_result = results
  
  while len(tmp_result) > 0:
   tmp = optimize(tmp_result)
   tmp = remove_accents(tmp)
-  if end == tmp[len(tmp)-10:len(tmp)]:
+  if end == tmp[len(tmp)-4:len(tmp)]:
       break
   tmp_result = tmp_result[:-1:]
 
