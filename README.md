@@ -24,4 +24,4 @@ nearest_string "Bao_quan_trung_ga_tuoi_bang_mang_bao_chitosan" "Tạp chí Khoa 
 
 # Reference
 
-(Levenshtein Distance)[https://www.datacamp.com/community/tutorials/fuzzy-string-python]
+- [Levenshtein Distance](https://www.datacamp.com/community/tutorials/fuzzy-string-python)
