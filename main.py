@@ -1,6 +1,6 @@
 import numpy as np
 from itertools import combinations
-import re,sys,string
+import re,sys,string,json
 
 def levenshtein_ratio_and_distance(s, t, ratio_calc = False):
     """ levenshtein_ratio_and_distance:
@@ -90,13 +90,13 @@ def getMaxScore(data,title):
  return [max_value,' '.join(results.split())]
 
 def clean_head(title,results):
- start = title[0:10]
+ start = title[0:4]
  tmp_result = results
  
  while len(tmp_result) > 0:
   tmp = optimize(tmp_result)
   tmp = remove_accents(tmp)
-  if start == tmp[0:10]:
+  if start == tmp[0:4]:
       break
   tmp_result = tmp_result[1::]
 
@@ -158,8 +158,8 @@ def getBestMatch(title,text):
  if max_value < 0.5:
      return re.sub(r"[-_()\"#/@;:<>{}`+=~|.!?,]", " ", original).upper()
  
- return optimizeResult(results,title,max_value)
+ return [optimizeResult(results,title,max_value),max_value]
 
 def main():
  args = sys.argv[1:]
- print(getBestMatch(args[0],args[1]))
+ print(json.dumps(getBestMatch(args[0],args[1])))
